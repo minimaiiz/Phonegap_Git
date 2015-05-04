@@ -1,0 +1,64 @@
+<?php  
+	
+	$sName = $_GET['sName'];
+
+	$con = mysqli_connect("localhost","root","","music");
+	 if (mysqli_connect_errno()) {
+	 	echo "Failed to connect to MySQL:".mysqli_connect_errno();
+	 }
+
+
+	 $query = "SELECT * FROM musicTable WHERE sName = $sName";
+	 $result = mysqli_query($con,$query); 
+	 $score = $_GET['score'];
+
+	function (requestSong){
+ 			$score = $score++;
+ 			mysqli_query($con,"UPDATE musicTable SET score = $score WHERE sName = $row");
+	 	}
+	 
+	 mysqli_close($con);
+
+	
+?>
+
+<html>
+<head>
+		<meta charset="utf-8">
+		<meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    	    
+    	<link rel="stylesheet" type="text/css" href="/Applications/XAMPP/xamppfiles/htdocs/New App/MyNewApp/platforms/ios/www/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="/Applications/XAMPP/xamppfiles/htdocs/New App/MyNewApp/platforms/ios/www/jquery/jquery.mobile-1.4.3.min.css" />
+
+        <meta name="msapplication-tap-highlight" content="no" />
+    
+        <script src="/Applications/XAMPP/xamppfiles/htdocs/New App/MyNewApp/platforms/ios/www/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="/Applications/XAMPP/xamppfiles/htdocs/New App/MyNewApp/platforms/ios/www/jquery/jquery.mobile-1.4.3.min.js"> </script>
+</head>
+
+<body>
+	<div class="method-get">
+		<form method="GET">
+			<input type="text" name="sName">
+			<input type="submit" value="Search your song">
+			<?php echo $_GET['sName'];?>
+		</form>
+	</div>
+	
+
+	<?php if ($result) {
+		while ($row = mysqli_fetch_array($result)) {
+				echo .$row['sName']. "<input type='submit' name='add' onclick='requestSong()' value='request'></br>";
+			}
+	}	
+	?>	
+     
+
+	
+	
+</body>
+
+
+</html>
